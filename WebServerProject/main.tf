@@ -68,7 +68,7 @@ resource "azurerm_network_security_group" "example" {
 # Network interface
 resource "azurerm_network_interface" "main" {
   count = var.vm_count
-  name                = "${var.prefix}-nic-${var.server_names[count.index]}"
+  name                = "${var.prefix}-nic-${count.index}"
   resource_group_name = azurerm_resource_group.main.name
   location            = azurerm_resource_group.main.location
 
@@ -123,6 +123,7 @@ resource "azurerm_availability_set" "main" {
   location                    = azurerm_resource_group.main.location
   resource_group_name         = azurerm_resource_group.main.name
   platform_fault_domain_count = 2
+  platform_update_domain_count = 2
 
   tags = {
     environment = var.environment
@@ -143,7 +144,7 @@ resource "azurerm_network_interface_backend_address_pool_association" "main" {
 resource "azurerm_linux_virtual_machine" "main" {
   count = var.vm_count
 
-  name                            = "${var.prefix}-vm-${var.server_names[count.index]}"
+  name                            = "${var.prefix}-vm-${count.index}"
   resource_group_name             = azurerm_resource_group.main.name
   location                        = azurerm_resource_group.main.location
   size                            = "Standard_B1s"
@@ -157,21 +158,13 @@ resource "azurerm_linux_virtual_machine" "main" {
   availability_set_id = azurerm_availability_set.main.id
   source_image_id     = var.packerImageId
 
-  #source_image_reference {
-  #  publisher = "Canonical"
-  #  offer     = "UbuntuServer"
-  #  sku       = "18.04-LTS"
-  #  version   = "latest"
-  #}
-
   os_disk {
     storage_account_type = "Standard_LRS"
     caching              = "ReadWrite"
   }
 
   tags = {
-    environment = var.environment,
-    name        = var.server_names[count.index]
+    environment = var.environment    
   }
 }
 
