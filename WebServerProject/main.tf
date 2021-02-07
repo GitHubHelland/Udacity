@@ -179,7 +179,7 @@ resource "azurerm_linux_virtual_machine" "main" {
 resource "azurerm_managed_disk" "main" {
   count = var.vm_count
 
-  name                 = "${var.prefix}-md-${count.index}"
+  name                 = "${var.prefix}-md-${var.server_names[count.index]}"
   location             = azurerm_resource_group.main.location
   resource_group_name  = azurerm_resource_group.main.name
   storage_account_type = "Standard_LRS"
