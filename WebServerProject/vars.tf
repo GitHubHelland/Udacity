@@ -21,6 +21,11 @@ variable "password"{
   default= "password"
 }
 
+variable "server_names"{
+  type = list
+  default = ["first","second"]
+}
+
 variable "packerImageId"{
   default = "/subscriptions/db48a711-1f20-4b46-9eaa-0e35ac94dc66/resourceGroups/webserver-rg/providers/Microsoft.Compute/images/myPackerImage"
 }
