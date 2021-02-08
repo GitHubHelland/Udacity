@@ -68,7 +68,7 @@ resource "azurerm_network_security_group" "example" {
 # Network interface
 resource "azurerm_network_interface" "main" {
   count = var.vm_count
-  name                = "${var.prefix}-nic-${count.index}"
+  name                = "${var.prefix}-nic-${var.server_names[count.index]}"
   resource_group_name = azurerm_resource_group.main.name
   location            = azurerm_resource_group.main.location
 
@@ -144,7 +144,7 @@ resource "azurerm_network_interface_backend_address_pool_association" "main" {
 resource "azurerm_linux_virtual_machine" "main" {
   count = var.vm_count
 
-  name                            = "${var.prefix}-vm-${count.index}"
+  name                            = "${var.prefix}-vm-${var.server_names[count.index]}"
   resource_group_name             = azurerm_resource_group.main.name
   location                        = azurerm_resource_group.main.location
   size                            = "Standard_B1s"
