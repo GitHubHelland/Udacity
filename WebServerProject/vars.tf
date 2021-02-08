@@ -22,7 +22,7 @@ variable "password"{
 }
 
 variable "packerImageId"{
-  default = myPackerImage"
+  default = "myPackerImage"
 }
 
 variable "vm_count"{
