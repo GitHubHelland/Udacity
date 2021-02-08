@@ -93,5 +93,7 @@ Continuing using Azure CLI the I took the following steps:
 
 
 ### Output
-**Your words here**
+Output from "az policy assignment list" command
+![policy](https://github.com/GitHubHelland/Udacity/blob/master/WebServerProject/Screenshots/AZ%20policy%20assignment%20list.jpg)
+
 
