@@ -27,7 +27,7 @@ resource "azurerm_subnet" "main" {
   name                 = "${var.prefix}-subnet"
   resource_group_name  = azurerm_resource_group.main.name
   virtual_network_name = azurerm_virtual_network.main.name
-  address_prefixes     = ["10.0.2.0/24"]
+  address_prefixes     = ["10.0.0.0/24"]
 }
 
 # Network Security Group
@@ -136,7 +136,7 @@ resource "azurerm_network_interface_backend_address_pool_association" "main" {
   count = var.vm_count
 
   network_interface_id    = azurerm_network_interface.main[count.index].id
-  ip_configuration_name   = azurerm_subnet.main.id
+  ip_configuration_name   = azurerm_subnet.main.name
   backend_address_pool_id = azurerm_lb_backend_address_pool.main.id
 }
 
