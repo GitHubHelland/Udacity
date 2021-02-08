@@ -18,7 +18,7 @@ variable "username"{
 }
 
 variable "password"{
-  default= "password"
+  default= "Password1!"
 }
 
 variable "server_names"{
