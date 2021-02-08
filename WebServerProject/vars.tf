@@ -22,7 +22,7 @@ variable "password"{
 }
 
 variable "packerImageId"{
-  default = "myPackerImage"
+  default = "/subscriptions/db48a711-1f20-4b46-9eaa-0e35ac94dc66/resourceGroups/webserver-rg/providers/Microsoft.Compute/images/myPackerImage"
 }
 
 variable "vm_count"{
