@@ -30,7 +30,7 @@ A policy definition was created using two json files, taggingpolicy.json for the
 
 az policy definition create –name [name] –rules [rules file] -params [parameters file]
 
-The policy was then assigned via the portal using the name tagging-policy. Using the command az policy assignment list confirmed that the policy had been assigned:
+The policy was then assigned via the portal using the name tagging-policy. Using the command "az policy assignment list" confirmed that the policy had been assigned.
 
 ### Create resource group
 A resource group was created via the portal in region "UK South", with a tag "environment" in order to meet the new tagging requirments.
@@ -70,7 +70,6 @@ After this process it is possible to type "echo %{variable-name}%" for each envi
 After the exporting environment variables, the packer image "myPackerImage" was deployed by using the "packer build server.json" command in Azure CLI.
 
 ### Write Terraform template
-
 Two terraform template files were written, main.tf and vars.tf. Some important points:
 
 * Each item of infrastructure was given the tag "environment" to conform with the tagging policy
@@ -80,8 +79,18 @@ Two terraform template files were written, main.tf and vars.tf. Some important p
 * A variable called vm_count was provided. In this deployment it was set to 2, hence creating 2 VMs, but it can be set to a higher number if more VMs are desired.
 
 ### Deploy Terraform  infrastrutcture
+Prior to deploying the Terraform infrastructure I logged in Azure CLI to log in using the "az login" command. I then ran the command "az policy assignment list" to confirm that the policy was still available.
 
-When running the "terraform apply", I was prompted to import the 
+Continuing using Azure CLI the I took the following steps:
+1. Initialise terraform using the "terraform init" command
+1. Create a terraform execution plan and writing it to a file "solution.plan" using the command "terraform plan -out solution.plan"
+1. Apply the changes required by the execution plan and deploying the infrastructure using the command "terraform apply"
+1. At this point I got an error message stating that the resource group I was trying to creat alread existed and that it had to be imported into the state. I used the command terraform import/azurerm_resource_group_main /subscriptions/{subscription id}/resourceGroups/webserver-rg to import the resrource group.
+1. I then tried the "terraform apply" command again and all the infrastructure from main.tf was created except for the network interface cards and the virtual machines which came up with error messages
+1. I corrected the errors (typos in the main.tf and and an accidentily deleted packer image) and ran "terraform apply" again, this time completing the deployment.
+1. I then ran the command "terraform plan -out solution.plan" again, which confirmed that all the changes required had been completed and that 0 additional changes were required.
+1. I then ran the "terraform show" command to list all the deployed infrastructure, and finally, after checking in the portal that all the infrastrucutre had been created, I ran the "terraform destory" command to delete all the infrastructure.
+
 
 ### Output
 **Your words here**
