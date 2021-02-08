@@ -17,7 +17,7 @@ For this project, you will write a Packer template and a Terraform template to d
 4. Install [Terraform](https://www.terraform.io/downloads.html)
 
 ### Instructions
-Packer image
+### Deploy Packer image
 Packer is an open source tool that automates the creation of any type of images for multiple platforms from a single source configuration. Once we deployed the virtual machine with the help of packer, make sure to delete the paker image because does not maintain the state.
 
 Configure Environment variables, go to the terminal and export the environment variables like below.
@@ -50,7 +50,9 @@ Create a client secret as you need and copy the client secret value.
 After this process type echo %variable% for each environment variable to check tou have configured properly
 Deploy packer image "myPackerImage" by typing "packer build server.json"
 
+### Deploy Terraform
 
+When running the "terraform apply", I was prompted to import the 
 
 ### Output
 **Your words here**
