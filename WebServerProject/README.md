@@ -40,9 +40,9 @@ A packer template file, server.json, was written in order to create a virtual ma
 ### Deploy Packer image
 Before the packer image could be deployed, the environment variables it contained had to be exported. This was done using Azure CLI and the following commands:
 
-*set ARM_CLIENT_ID = {client id} 
-*set ARM_CLIENT_SECRET = {client secret value} 
-*set ARM_SUBSCRIPTION_ID = {subscription id}
+* set ARM_CLIENT_ID = {client id} 
+* set ARM_CLIENT_SECRET = {client secret value} 
+* set ARM_SUBSCRIPTION_ID = {subscription id}
 
 The values for the various variables were obtained as follows:
 
