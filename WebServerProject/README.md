@@ -46,9 +46,11 @@ Click "App registrations" under the Manage tab
 Click the application that you own (Terraform)
 Click the "Certificates & Secrets" under the Manage tab
 Create a client secret as you need and copy the client secret value. 
-After this process type echo %variable% to check tou have configured properly
-Deploy packer images by typing "packer build server.json"
-**Your words here**
+
+After this process type echo %variable% for each environment variable to check tou have configured properly
+Deploy packer image "myPackerImage" by typing "packer build server.json"
+
+
 
 ### Output
 **Your words here**
