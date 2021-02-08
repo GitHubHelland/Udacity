@@ -26,7 +26,7 @@ For this project, you will write a Packer template and a Terraform template to d
 
 ### Instructions
 ### Create and assign tagging policy
-A policy definition was created using two json files, taggingpolicy.json for the policy rules and parameters.json for the parameters. The rules dictated that no new resource could be created if it did not have a tag. The definition was created using Azure CLI and the following command:
+A policy definition was created using two json files, taggingpolicy.json for the policy rules and parameters.json for the parameters. The rules dictated that no new resource could be created if it did not have a tag. The definition was created using Azure CLI and the following command (first logging in using "az login"):
 
 az policy definition create –name [name] –rules [rules file] -params [parameters file]
 
@@ -39,7 +39,7 @@ A resource group was created via the portal in region "UK South", with a tag "en
 A packer template file, server.json, was written in order to create a virtual machine image. The resource group specified in the file was the same one that was created in the previous step, "webserver-rg".
 
 ### Deploy Packer image
-Before the packer image could be deployed, the environment variables it contained had to be exported. This was done using Azure CLI and the following commands:
+Before the packer image could be deployed, the environment variables it contained had to be exported. This was done using Azure CLI and the following commands (first logging in using "az login"):
 
 * set ARM_CLIENT_ID = {client id} 
 * set ARM_CLIENT_SECRET = {client secret value} 
@@ -70,6 +70,16 @@ After this process it is possible to type "echo %{variable-name}%" for each envi
 After the exporting environment variables, the packer image "myPackerImage" was deployed by using the "packer build server.json" command in Azure CLI.
 
 ### Write Terraform template
+
+Two terraform template files were written, main.tf and vars.tf. Some important points:
+
+* Each item of infrastructure was given the tag "environment" to conform with the tagging policy
+* Password requirements inlcude at least one uppercase, lowercase, numerical and special character so the default password was set to "Password1!"
+* For the virtual machine availibility set, the following variables, "platform_fault_domain_count" and "platform_update_domain_count" were set to 2 in accordance with terraform documentation
+* Instead of specifying the VM type and size, a reference to the previously created packer image was provided using the following path: "/subscription/{subscription id}/resourcesGroups/webserver-rg/providers/Microsoft.Compute/images/myPackerImage"
+* A variable called vm_count was provided. In this deployment it was set to 2, hence creating 2 VMs, but it can be set to a higher number if more VMs are desired.
+
+### Deploy Terraform  infrastrutcture
 
 When running the "terraform apply", I was prompted to import the 
 
