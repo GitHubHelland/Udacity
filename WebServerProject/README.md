@@ -40,33 +40,30 @@ A packer template file, server.json, was written in order to create a virtual ma
 ### Deploy Packer image
 Before the packer image could be deployed, the environment variables it contained had to be exported. This was done using Azure CLI and the following commands:
 
-set ARM_CLIENT_ID = {client id}
-set ARM_CLIENT_SECRET = {client secret value}
+set ARM_CLIENT_ID = {client id} 
+set ARM_CLIENT_SECRET = {client secret value} 
 set ARM_SUBSCRIPTION_ID = {subscription id}
 
 The values for the various variables were obtained as follows:
 
-SUBSCRIPTION ID:
-Log in into your azure account
-Search and click "Subscriptions"
+SUBSCRIPTION ID: 
+Log in into your azure account Search and click "Subscriptions" 
 Select relevant subscription 
-Click on the overview
-Copy the "Subscription Id"
+Click on the overview Copy the "Subscription Id"
 
-CLIENT ID:
-Log in into your azure account
-Find the "Azure Active Directory"
-Click "App registrations" under the Manage tab
-Click the application that you own (Terraform)
-Copy the client Id
+CLIENT ID: 
+Log in into your azure account 
+Find the "Azure Active Directory" 
+Click "App registrations" under the Manage tab 
+Click the application that you own (Terraform) Copy the client Id
 
-CLIENT SECRET:
-Log in into your azure account
-Find the "Azure Active Directory"
-Click "App registrations" under the Manage tab
-Click the application that you own (Terraform)
-Click the "Certificates & Secrets" under the Manage tab
-Create a client secret and copy the client secret value (not the client secret id) 
+CLIENT SECRET: 
+Log in into your azure account 
+Find the "Azure Active Directory" 
+Click "App registrations" under the Manage tab Click the application that you own (Terraform) 
+Click the "Certificates & Secrets" under the Manage tab 
+Create a client secret and copy the client secret value (not the client secret id)
+
 
 After this process it is possible to type "echo %{variable-name}%" for each environment variable to confirmed that they have been exported correctly.
 
