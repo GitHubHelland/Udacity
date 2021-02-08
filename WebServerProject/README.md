@@ -49,7 +49,7 @@ The values for the various variables were obtained as follows:
 SUBSCRIPTION ID:
 Log in into your azure account
 Search and click "Subscriptions"
-Select relevant subscription
+Select relevant subscription 
 Click on the overview
 Copy the "Subscription Id"
 
