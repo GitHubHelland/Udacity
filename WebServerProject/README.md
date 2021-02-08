@@ -27,6 +27,7 @@ For this project, you will write a Packer template and a Terraform template to d
 ### Instructions
 ### Create and assign tagging policy
 A policy definition was created using two json files, taggingpolicy.json for the policy rules and parameters.json for the parameters. The rules dictated that no new resource could be created if it did not have a tag. The definition was created using Azure CLI and the following command:
+
 az policy definition create –name [name] –rules [rules file] -params [parameters file]
 
 The policy was then assigned via the portal using the name tagging-policy. Using the command az policy assignment list confirmed that the policy had been assigned:
@@ -47,23 +48,22 @@ Before the packer image could be deployed, the environment variables it containe
 The values for the various variables were obtained as follows:
 
 SUBSCRIPTION ID: 
-Log in into your azure account Search and click "Subscriptions" 
-Select relevant subscription 
-Click on the overview Copy the "Subscription Id"
+1. Log in into your azure account Search and click "Subscriptions" 
+1. Select relevant subscription 
+1. Click on the overview Copy the "Subscription Id"
 
 CLIENT ID: 
-Log in into your azure account 
-Find the "Azure Active Directory" 
-Click "App registrations" under the Manage tab 
-Click the application that you own (Terraform) Copy the client Id
+1. Log in into your azure account 
+1. Find the "Azure Active Directory" 
+1. Click "App registrations" under the Manage tab 
+1. Click the application that you own (Terraform) Copy the client Id
 
 CLIENT SECRET: 
-Log in into your azure account 
-Find the "Azure Active Directory" 
-Click "App registrations" under the Manage tab Click the application that you own (Terraform) 
-Click the "Certificates & Secrets" under the Manage tab 
-Create a client secret and copy the client secret value (not the client secret id)
-
+1. Log in into your azure account 
+1. Find the "Azure Active Directory" 
+1. Click "App registrations" under the Manage tab Click the application that you own (Terraform) 
+1. Click the "Certificates & Secrets" under the Manage tab 
+1. Create a client secret and copy the client secret value (not the client secret id)
 
 After this process it is possible to type "echo %{variable-name}%" for each environment variable to confirmed that they have been exported correctly.
 
