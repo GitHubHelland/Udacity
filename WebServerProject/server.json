@@ -27,6 +27,7 @@
     	"location": "UK South",
     	"vm_size": "Standard_B1s"
 	}],
+	
 	"provisioners": [{
 		"inline": [
 			"echo 'Hello, World!' > index.html",
