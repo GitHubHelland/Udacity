@@ -1,5 +1,4 @@
 {
-
       "if": {
         "field": "[concat('tags[', parameters('tagName'), ']')]",
         "exists": "false"
