@@ -1,19 +1,19 @@
 # Azure Infrastructure Operations Project: Deploying a scalable IaaS web server in Azure
 
 ### Introduction
-For this project, you will write a Packer template and a Terraform template to deploy a customizable, scalable web server in Azure.
+For this project, I wrote a Packer template and a Terraform template to deploy a customizable, scalable web server in Azure.
 
 ### Getting Started
 ### Steps
 1. Clone udacity repository
 
-2. Create and assign a tagging policy "tagging-policy" which denies creation of resources without tags
+2. Create and assign a tagging policy "tagging-policy" which denies creation of un-tagged resources
 
 3. Create resource group "webserver-rg"
 
-4. Create and deploy virtual machine image "myPackerImage" within "webserver-rg" using packer
+4. Create and deploy virtual machine image "myPackerImage" using packer within the "webserver-rg" resource group
 
-5. Deploy infrastructure (network, load balancer and x number of virtual machines) using terraform
+5. Deploy infrastructure (network, load balancer, virtual machines etc.) using terraform
 
 6. Destroy infrastructure using terraform
 
@@ -26,9 +26,9 @@ For this project, you will write a Packer template and a Terraform template to d
 
 ### Instructions
 ### Create and assign tagging policy
-A policy definition was created using two json files, taggingpolicy.json for the policy rules and parameters.json for the parameters. The rules dictated that no new resource could be created if it did not have a tag. The definition was created using Azure CLI and the following command (first logging in using "az login"):
+A policy definition was created using two json files, "taggingpolicy.json" for the policy rules and "parameters.json" for the parameters. The rules dictated that no new resource could be created if it did not have a tag. The definition was created using Azure CLI and the following command (first logging in using "az login"):
 
-az policy definition create –tagging-policy –rules taggingpolicy.json -params parameters.json
+"az policy definition create –tagging-policy –rules taggingpolicy.json -params parameters.json"
 
 The policy was then assigned via the portal using the name tagging-policy. Using the command "az policy assignment list" confirmed that the policy had been assigned.
 
@@ -73,10 +73,9 @@ After the exporting environment variables, the packer image "myPackerImage" was 
 Two terraform template files were written, main.tf and vars.tf. Some important points:
 
 * Each item of infrastructure was given the tag "environment" to conform with the tagging policy
-* Password requirements inlcude at least one uppercase, lowercase, numerical and special character so the default password was set to "Password1!"
-* For the virtual machine availibility set, the following variables, "platform_fault_domain_count" and "platform_update_domain_count" were set to 2 in accordance with terraform documentation
+* For the virtual machine availibility set, the following variables, "platform_fault_domain_count" and "platform_update_domain_count" were set to 2 in accordance with terraform documentation for the UK South region (https://github.com/MicrosoftDocs/azure-docs/blob/master/includes/managed-disks-common-fault-domain-region-list.md)
 * Instead of specifying the VM type and size, a reference to the previously created packer image was provided using the following path: "/subscription/{subscription id}/resourcesGroups/webserver-rg/providers/Microsoft.Compute/images/myPackerImage"
-* A variable called vm_count was provided. In this deployment it was set to 2, hence creating 2 VMs, but it can be set to a higher number if more VMs are desired.
+* A variable called vm_count was provided with a default value of 2, hence creating 2 VMs, 2 NICs and two disks.
 
 ### Deploy Terraform  infrastrutcture
 Prior to deploying the Terraform infrastructure I logged in Azure CLI to log in using the "az login" command. I then ran the command "az policy assignment list" to confirm that the policy was still available (see output 1).
