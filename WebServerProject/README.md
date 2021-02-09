@@ -28,7 +28,7 @@ For this project, you will write a Packer template and a Terraform template to d
 ### Create and assign tagging policy
 A policy definition was created using two json files, taggingpolicy.json for the policy rules and parameters.json for the parameters. The rules dictated that no new resource could be created if it did not have a tag. The definition was created using Azure CLI and the following command (first logging in using "az login"):
 
-az policy definition create –name [name] –rules [rules file] -params [parameters file]
+az policy definition create –tagging-policy –rules taggingpolicy.json -params parameters.json
 
 The policy was then assigned via the portal using the name tagging-policy. Using the command "az policy assignment list" confirmed that the policy had been assigned.
 
@@ -79,21 +79,34 @@ Two terraform template files were written, main.tf and vars.tf. Some important p
 * A variable called vm_count was provided. In this deployment it was set to 2, hence creating 2 VMs, but it can be set to a higher number if more VMs are desired.
 
 ### Deploy Terraform  infrastrutcture
-Prior to deploying the Terraform infrastructure I logged in Azure CLI to log in using the "az login" command. I then ran the command "az policy assignment list" to confirm that the policy was still available.
+Prior to deploying the Terraform infrastructure I logged in Azure CLI to log in using the "az login" command. I then ran the command "az policy assignment list" to confirm that the policy was still available (see output 1).
 
 Continuing using Azure CLI the I took the following steps:
 1. Initialise terraform using the "terraform init" command
 1. Create a terraform execution plan and writing it to a file "solution.plan" using the command "terraform plan -out solution.plan"
 1. Apply the changes required by the execution plan and deploying the infrastructure using the command "terraform apply"
-1. At this point I got an error message stating that the resource group I was trying to creat alread existed and that it had to be imported into the state. I used the command terraform import/azurerm_resource_group_main /subscriptions/{subscription id}/resourceGroups/webserver-rg to import the resrource group.
-1. I then tried the "terraform apply" command again and all the infrastructure from main.tf was created except for the network interface cards and the virtual machines which came up with error messages
-1. I corrected the errors (typos in the main.tf and and an accidentily deleted packer image) and ran "terraform apply" again, this time completing the deployment.
+1. At this point I got an error message stating that the resource group I was trying to creat alread existed and that it had to be imported into the state. I used the command terraform import/azurerm_resource_group_main /subscriptions/{subscription id}/resourceGroups/webserver-rg to import the resrource group. (see output 2)
+1. I then tried the "terraform apply" command again and all the infrastructure from main.tf was created except for the network interface cards and the virtual machines which came up with error messages (see output 3)
+1. I corrected the errors (typos in the main.tf and and an accidentily deleted packer image) and ran "terraform apply" again, this time completing the deployment. (see output 4 and 5)
 1. I then ran the command "terraform plan -out solution.plan" again, which confirmed that all the changes required had been completed and that 0 additional changes were required.
-1. I then ran the "terraform show" command to list all the deployed infrastructure, and finally, after checking in the portal that all the infrastrucutre had been created, I ran the "terraform destory" command to delete all the infrastructure.
+1. I then ran the "terraform show" command to list all the deployed infrastructure, and finally, after checking in the portal that all the infrastrucutre had been created, I ran the "terraform destory" command to delete all the infrastructure. (see output 6)
 
 
-### Output
-Output from "az policy assignment list" command
+### Outputs
+1. Output from "az policy assignment list" command
 ![policy](https://github.com/GitHubHelland/Udacity/blob/master/WebServerProject/Screenshots/Az%20policy%20assignment%20list.jpg)
 
+1. Output from "terraform apply" prompting the import of resource group
+![import](https://github.com/GitHubHelland/Udacity/blob/master/WebServerProject/Screenshots/Terraform%20import%20resource%20group.jpg)
 
+
+
+
+### How to customise vars file
+The vars file can be modified to change the deployment of VMs in several ways (either by changing the var file or including command line arguments for input variables):
+* All network infrastructure is named using a prefix (currently defaulting to "webserver"), This can be changed by setting the variable "prefix" to the desired value
+* All network infrastructure is tagged with the environment tag (currently defaulting to "project1"). This can be changed by setting the variable "environment" to the desired value
+* The location of the resource group is set by the "location" variable (currently defaulting to "UK South"). This can be changed by setting the variable "location" to the desired value
+* The VM password is set by the password variable. If changing the password it should be noted that a password requires the folloing types of characters: upper case, lower case, numerical and a special character.
+* The number of VMs to be created can be specified by changing the variable "vm_count" to the desired value.
+* Other variables that can be modified include username, packer image reference and name of servers (the number of server names match the number of VMs so if the number of VMs is increased, additional server names should be added to the list)
