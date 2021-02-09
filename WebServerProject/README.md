@@ -88,8 +88,8 @@ Continuing using Azure CLI the I took the following steps:
 1. At this point I got an error message stating that the resource group I was trying to creat alread existed and that it had to be imported into the state. I used the command terraform import/azurerm_resource_group_main /subscriptions/{subscription id}/resourceGroups/webserver-rg to import the resrource group. (see output 2)
 1. I then tried the "terraform apply" command again and all the infrastructure from main.tf was created except for the network interface cards and the virtual machines which came up with error messages (see output 3)
 1. I corrected the errors (typos in the main.tf and and an accidentily deleted packer image) and ran "terraform apply" again, this time completing the deployment. (see output 4 and 5)
-1. I then ran the command "terraform plan -out solution.plan" again, which confirmed that all the changes required had been completed and that 0 additional changes were required.
-1. I then ran the "terraform show" command to list all the deployed infrastructure, and finally, after checking in the portal that all the infrastrucutre had been created, I ran the "terraform destory" command to delete all the infrastructure. (see output 6)
+1. I then ran the command "terraform plan -out solution.plan" again, which confirmed that all the changes required had been completed and that 0 additional changes were required. I also checked the "webserver-rg" resource group in the Azure portal to make sure all the infrastructure had been created (see output 6)
+1. I then ran the "terraform show" command to list all the deployed infrastructure, and finally, after checking in the portal that all the infrastrucutre had been created, I ran the "terraform destory" command to delete all the infrastructure. (see output 7)
 
 
 ### Outputs
@@ -98,6 +98,21 @@ Continuing using Azure CLI the I took the following steps:
 
 1. Output from "terraform apply" prompting the import of resource group
 ![import](https://github.com/GitHubHelland/Udacity/blob/master/WebServerProject/Screenshots/Terraform%20import%20resource%20group.jpg)
+
+1. Output from initial "terraform apply" command, deploy all the network infrastructure except NIC and VM
+![Deploy](https://github.com/GitHubHelland/Udacity/blob/master/WebServerProject/Screenshots/Terraform%20deploy%20Network%20Architecture.jpg)
+
+1. Output from second "terraform apply" command, deploying NICs
+![NIC](https://github.com/GitHubHelland/Udacity/blob/master/WebServerProject/Screenshots/Terraform%20deploy%20NIC.jpg)
+
+1. Output from third and final "terraform apply" command, deploying VMs and completing the terrafrom deployment
+![VM](https://github.com/GitHubHelland/Udacity/blob/master/WebServerProject/Screenshots/Terraform%20deploy%20VM.jpg)
+
+1. Screenshot from the Azure protal displaying all the created infrastructure
+![Azure portal](https://github.com/GitHubHelland/Udacity/blob/master/WebServerProject/Screenshots/Az%20portal.jpg)
+
+1. Output from the terraform destroy command
+![Destroy](https://github.com/GitHubHelland/Udacity/blob/master/WebServerProject/Screenshots/Terraform%20destroy%20final.jpg)
 
 
 
