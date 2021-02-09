@@ -85,9 +85,9 @@ Continuing using Azure CLI the I took the following steps:
 1. Create a terraform execution plan and writing it to a file "solution.plan" using the command "terraform plan -out solution.plan"
 1. Apply the changes required by the execution plan and deploying the infrastructure using the command "terraform apply"
 1. At this point I got an error message stating that the resource group I was trying to creat alread existed and that it had to be imported into the state. I used the command terraform import/azurerm_resource_group_main /subscriptions/{subscription id}/resourceGroups/webserver-rg to import the resrource group. (see output 2)
-1. I then tried the "terraform apply" command again and all the infrastructure from main.tf was created except for the network interface cards and the virtual machines which came up with error messages (see output 3)
+1. I then tried the "terraform apply" command again and all the infrastructure from main.tf was created except for the bakcend address pool association with network interface and the virtual machines which came up with error messages. (see output 3)
 1. I corrected the errors (typos in the main.tf and and an accidentily deleted packer image) and ran "terraform apply" again, this time completing the deployment. (see output 4 and 5)
-1. I then ran the command "terraform plan -out solution.plan" again, which confirmed that all the changes required had been completed and that 0 additional changes were required. I also checked the "webserver-rg" resource group in the Azure portal to make sure all the infrastructure had been created (see output 6)
+1. I then ran the command "terraform plan -out solution.plan" again, which confirmed that all the changes required had been completed and that 0 additional changes were required. I also checked the "webserver-rg" resource group in the Azure portal to make sure all the infrastructure had been created. (see output 6)
 1. I then ran the "terraform show" command to list all the deployed infrastructure, and finally, after checking in the portal that all the infrastrucutre had been created, I ran the "terraform destory" command to delete all the infrastructure. (see output 7)
 
 
@@ -101,8 +101,8 @@ Continuing using Azure CLI the I took the following steps:
 1. Output from initial "terraform apply" command, deploy all the network infrastructure except NIC and VM
 ![Deploy](https://github.com/GitHubHelland/Udacity/blob/master/WebServerProject/Screenshots/Terraform%20deploy%20Network%20Architecture.jpg)
 
-1. Output from second "terraform apply" command, deploying NICs
-![NIC](https://github.com/GitHubHelland/Udacity/blob/master/WebServerProject/Screenshots/Terraform%20deploy%20NIC.jpg)
+1. Output from second "terraform apply" command, deploying bakcend address pool association with network interface
+![Backend](https://github.com/GitHubHelland/Udacity/blob/master/WebServerProject/Screenshots/Terraform%20deploy%20NIC.jpg)
 
 1. Output from third and final "terraform apply" command, deploying VMs and completing the terrafrom deployment
 ![VM](https://github.com/GitHubHelland/Udacity/blob/master/WebServerProject/Screenshots/Terraform%20deploy%20VM.jpg)
@@ -114,13 +114,11 @@ Continuing using Azure CLI the I took the following steps:
 ![Destroy](https://github.com/GitHubHelland/Udacity/blob/master/WebServerProject/Screenshots/Terraform%20destroy%20final.jpg)
 
 
-
-
 ### How to customise vars file
-The vars file can be modified to change the deployment of VMs in several ways (either by changing the var file or including command line arguments for input variables):
+The vars file can be modified to change the deployment of network infrastructure in a DRY way (variables can also be changed using command line arguments for input variables):
 * All network infrastructure is named using a prefix (currently defaulting to "webserver"), This can be changed by setting the variable "prefix" to the desired value
 * All network infrastructure is tagged with the environment tag (currently defaulting to "project1"). This can be changed by setting the variable "environment" to the desired value
 * The location of the resource group is set by the "location" variable (currently defaulting to "UK South"). This can be changed by setting the variable "location" to the desired value
 * The VM password is set by the password variable. If changing the password it should be noted that a password requires the folloing types of characters: upper case, lower case, numerical and a special character.
-* The number of VMs to be created can be specified by changing the variable "vm_count" to the desired value.
-* Other variables that can be modified include username, packer image reference and name of servers (the number of server names match the number of VMs so if the number of VMs is increased, additional server names should be added to the list)
+* The number of VMs to be created can be specified by setting the variable "vm_count" to the desired value (this will also affect number of network interfaces and managed disks).
+* Other variables that can be modified include username, packer image reference and name of servers (by default the number of server names match the number of VMs, so if the number of VMs is increased, additional server names should be added to the list)
